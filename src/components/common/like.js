@@ -6,7 +6,14 @@ class Like extends Component {
 
     classes += !this.props.likes ? "r" : "s";
 
-    return <i className={classes} aria-hidden="true" />;
+    return (
+      <i
+        className={classes}
+        onClick={this.props.onLikeToggle}
+        style={{ cursor: "pointer" }}
+        aria-hidden="true"
+      />
+    );
   }
 }
 export default Like;

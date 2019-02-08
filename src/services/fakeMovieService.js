@@ -16,14 +16,15 @@ const movies = [
     genre: { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
     numberInStock: 5,
     dailyRentalRate: 2.5,
-    likes: true
+    likes: false
   },
   {
     _id: "5b21ca3eeb7f6fbccd471817",
     title: "Get Out",
     genre: { _id: "5b21ca3eeb7f6fbccd471820", name: "Thriller" },
     numberInStock: 8,
-    dailyRentalRate: 3.5
+    dailyRentalRate: 3.5,
+    likes: false
   },
   {
     _id: "5b21ca3eeb7f6fbccd471819",
@@ -46,7 +47,8 @@ const movies = [
     title: "Wedding Crashers",
     genre: { _id: "5b21ca3eeb7f6fbccd471814", name: "Comedy" },
     numberInStock: 7,
-    dailyRentalRate: 3.5
+    dailyRentalRate: 3.5,
+    likes: false
   },
   {
     _id: "5b21ca3eeb7f6fbccd47181e",
@@ -61,7 +63,8 @@ const movies = [
     title: "The Sixth Sense",
     genre: { _id: "5b21ca3eeb7f6fbccd471820", name: "Thriller" },
     numberInStock: 4,
-    dailyRentalRate: 3.5
+    dailyRentalRate: 3.5,
+    likes: false
   },
   {
     _id: "5b21ca3eeb7f6fbccd471821",
