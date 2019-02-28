@@ -5,15 +5,20 @@ class TableBody extends Component {
   renderContent = (mov, col) => {
     return col.content ? col.content(mov) : _.get(mov, col.type);
   };
+
+  generateKey = (mov, col) => mov._id + (col.type || col.key);
+
   render() {
-    const { data: movies, columns: movieColumn } = this.props;
+    const { data: movies, columns: movieColumns } = this.props;
 
     return (
       <tbody>
         {movies.map(mov => (
-          <tr key={mov.id}>
-            {movieColumn.map(col => (
-              <td>{this.renderContent(mov, col)}</td>
+          <tr key={mov._id}>
+            {movieColumns.map(col => (
+              <td key={this.generateKey(mov, col)}>
+                {this.renderContent(mov, col)}
+              </td>
             ))}
           </tr>
         ))}
