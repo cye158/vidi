@@ -12,17 +12,35 @@ class TableHeader extends Component {
     this.props.onSort(sortColumn);
   };
 
+  showSortIcon = col => {
+    const { sortColumn } = this.props;
+
+    return col.type === sortColumn.type ? (
+      <i
+        className={
+          sortColumn.order === "asc" ? "fas fa-sort-up" : "fas fa-sort-down"
+        }
+      />
+    ) : null;
+  };
+
   render() {
-    const { columns } = this.props;
+    const { columns, sortColumn } = this.props;
     return (
       <thead>
         <tr>
           {columns.map(col => (
             <th
+              style={
+                col.type === sortColumn.type
+                  ? { textDecoration: "underline" }
+                  : null
+              }
+              className="clickable"
               key={col.type || col.key}
               onClick={() => this.raiseSort(col.type)}
             >
-              {col.label}
+              {col.label} {this.showSortIcon(col)}
             </th>
           ))}
         </tr>

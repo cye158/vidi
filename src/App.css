@@ -30,3 +30,11 @@
     transform: rotate(360deg);
   }
 }
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  color: rgb(30, 144, 255);
+}
