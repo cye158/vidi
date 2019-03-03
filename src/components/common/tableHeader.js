@@ -40,7 +40,7 @@ class TableHeader extends Component {
               key={col.type || col.key}
               onClick={() => this.raiseSort(col.type)}
             >
-              {col.label} {this.showSortIcon(col)}
+              {this.showSortIcon(col)} {col.label}
             </th>
           ))}
         </tr>
