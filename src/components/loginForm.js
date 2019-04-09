@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
+import Form from "./common/form";
 import Input from "./common/input";
 import Joi from "joi";
 
-class LoginForm extends Component {
+class LoginForm extends Form {
   state = {
-    account: {
+    data: {
       username: "",
       password: ""
     },
@@ -20,49 +21,23 @@ class LoginForm extends Component {
       .label("Password")
   };
 
-  validate = () => {
-    const options = { abortEarly: false };
-    const { error } = Joi.validate(this.state.account, this.schema, options);
-    console.log(Joi.validate(this.state.account, this.schema, options));
-    if (!error) return null;
-
-    const errors = {};
-    for (let i of error.details) {
-      errors[i.path[0]] = i.message;
-    }
-    return errors;
-  };
-
-  validateProp = ({ name, value }) => {
-    const obj = { [name]: value };
-    const subSchema = { [name]: this.schema[name] };
-    const { error } = Joi.validate(obj, subSchema);
-    return error ? error.details[0].message : null;
-  };
-
   handleChange = ({ currentTarget, target }) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProp(currentTarget);
     if (errorMessage) errors[target.name] = errorMessage;
     else delete errors[target.name];
 
-    const account = { ...this.state.account };
-    account[target.name] = currentTarget.value;
-    this.setState({ account, errors });
+    const data = { ...this.state.data };
+    data[target.name] = currentTarget.value;
+    this.setState({ data, errors });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-    if (errors) return;
-
+  doSubmit = () => {
     console.log("Submit Success!");
   };
 
   render() {
-    const { username, password } = this.state.account;
+    const { username, password } = this.state.data;
     const { errors } = this.state;
     return (
       <div>
@@ -81,7 +56,9 @@ class LoginForm extends Component {
             label="Password"
             error={errors.password}
           />
-          <button className="btn btn-primary">Login</button>
+          <button disabled={this.validate()} className="btn btn-primary">
+            Login
+          </button>
         </form>
       </div>
     );
