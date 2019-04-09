@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Input from "./common/input";
+import Joi from "joi";
 
 class LoginForm extends Component {
   state = {
@@ -10,13 +11,33 @@ class LoginForm extends Component {
     errors: {}
   };
 
+  schema = {
+    username: Joi.string()
+      .required()
+      .label("Username"),
+    password: Joi.string()
+      .required()
+      .label("Password")
+  };
+
+  validate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(this.state.account, this.schema, options);
+    console.log(Joi.validate(this.state.account, this.schema, options));
+    if (!error) return null;
+
+    const errors = {};
+    for (let i of error.details) {
+      errors[i.path[0]] = i.message;
+    }
+    return errors;
+  };
+
   validateProp = ({ name, value }) => {
-    if (name === "username") {
-      if (value.trim() === "") return "Username is required.";
-    }
-    if (name === "password") {
-      if (value.trim() === "") return "Password is required.";
-    }
+    const obj = { [name]: value };
+    const subSchema = { [name]: this.schema[name] };
+    const { error } = Joi.validate(obj, subSchema);
+    return error ? error.details[0].message : null;
   };
 
   handleChange = ({ currentTarget, target }) => {
@@ -28,16 +49,6 @@ class LoginForm extends Component {
     const account = { ...this.state.account };
     account[target.name] = currentTarget.value;
     this.setState({ account, errors });
-  };
-
-  validate = () => {
-    const err = {};
-    const { account } = this.state;
-
-    if (account.username.trim() === "") err.username = "Username is required.";
-    if (account.password.trim() === "") err.password = "Password is required.";
-
-    return Object.keys(err).length === 0 ? null : err;
   };
 
   handleSubmit = e => {
