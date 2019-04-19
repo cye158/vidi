@@ -1,10 +1,11 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import Joi from "joi";
+import Input from "./input";
 
 class Form extends Component {
   state = {
     data: {},
-    erros: {}
+    errors: {}
   };
 
   validate = () => {
@@ -35,6 +36,28 @@ class Form extends Component {
     if (errors) return;
 
     this.doSubmit();
+  };
+
+  renderButton = label => {
+    return (
+      <button disabled={this.validate()} className="btn btn-primary">
+        {label}
+      </button>
+    );
+  };
+
+  renderInput = (name, label, type) => {
+    const { data, errors } = this.state;
+    return (
+      <Input
+        type={type}
+        value={data[name]}
+        onChange={this.handleChange}
+        name={name}
+        label={label}
+        error={errors[name]}
+      />
+    );
   };
 }
 

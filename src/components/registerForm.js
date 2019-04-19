@@ -2,23 +2,28 @@ import React from "react";
 import Form from "./common/form";
 import Joi from "joi";
 
-class LoginForm extends Form {
+class RegisterForm extends Form {
   state = {
     data: {
       username: "",
-      password: ""
+      password: "",
+      name: ""
     },
     errors: {}
   };
 
   schema = {
     username: Joi.string()
-      .required()
       .label("Username")
-      .email(),
+      .email()
+      .required(),
     password: Joi.string()
-      .required()
       .label("Password")
+      .min(5)
+      .required(),
+    name: Joi.string()
+      .label("Name")
+      .required()
   };
 
   handleChange = ({ currentTarget, target }) => {
@@ -33,20 +38,20 @@ class LoginForm extends Form {
   };
 
   doSubmit = () => {
-    console.log("Submit Success!");
+    console.log("Register Success");
   };
 
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          {this.renderInput("username", "Username")}
-          {this.renderInput("password", "Password", "password")}
-          {this.renderButton("Login")}
-        </form>
+        <form onSubmit={this.handleSubmit} />
+        {this.renderInput("username", "Username")}
+        {this.renderInput("password", "Password", "password")}
+        {this.renderInput("name", "Name")}
+        {this.renderButton("Register")}
       </div>
     );
   }
 }
 
-export default LoginForm;
+export default RegisterForm;
