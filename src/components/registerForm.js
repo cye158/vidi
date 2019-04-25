@@ -26,17 +26,6 @@ class RegisterForm extends Form {
       .required()
   };
 
-  handleChange = ({ currentTarget, target }) => {
-    const errors = { ...this.state.errors };
-    const errorMessage = this.validateProp(currentTarget);
-    if (errorMessage) errors[target.name] = errorMessage;
-    else delete errors[target.name];
-
-    const data = { ...this.state.data };
-    data[target.name] = currentTarget.value;
-    this.setState({ data, errors });
-  };
-
   doSubmit = () => {
     console.log("Register Success");
   };
@@ -44,11 +33,12 @@ class RegisterForm extends Form {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit} />
-        {this.renderInput("username", "Username")}
-        {this.renderInput("password", "Password", "password")}
-        {this.renderInput("name", "Name")}
-        {this.renderButton("Register")}
+        <form onSubmit={this.handleSubmit}>
+          {this.renderInput("username", "Username")}
+          {this.renderInput("password", "Password", "password")}
+          {this.renderInput("name", "Name")}
+          {this.renderButton("Register")}
+        </form>
       </div>
     );
   }
