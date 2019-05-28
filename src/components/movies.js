@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import ListGroup from "./common/listGroup";
-import Pagination from "./common/pagination";
+import { toast } from "react-toastify";
 import { paginate } from "../utils/paginate";
 import { includesQuery } from "../utils/includesQuery";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovies, deleteMovie } from "../services/movieService";
+import { getGenres } from "../services/genreService";
+import ListGroup from "./common/listGroup";
+import Pagination from "./common/pagination";
 import MoviesTable from "./moviesTable";
 import SearchBox from "./searchBox";
 import _ from "lodash";
@@ -21,14 +22,30 @@ class Movies extends Component {
     sortColumn: { type: "title", order: "asc" }
   };
 
-  componentDidMount() {
-    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
-    this.setState({ movies: getMovies(), genres });
+  async componentDidMount() {
+    const { data: preGenres } = await getGenres();
+    const genres = [{ _id: "", name: "All Genres" }, ...preGenres];
+
+    const { data: movies } = await getMovies();
+
+    this.setState({ movies, genres });
   }
 
-  handleDelete = mov => {
-    const movies = this.state.movies.filter(movie => movie._id !== mov._id);
+  handleDelete = async mov => {
+    const prevMovieState = this.state.movies;
+
+    const movies = prevMovieState.filter(m => m._id !== mov._id);
     this.setState({ movies });
+
+    try {
+      await deleteMovie(mov._id);
+    } catch (e) {
+      console.log(e.response);
+      if (e.response && e.response.status === 404) {
+        toast.error("This movie has already been removed.");
+      }
+      this.setState({ movies: prevMovieState });
+    }
   };
 
   handleLike = mov => {
@@ -55,7 +72,7 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  getPadeData = () => {
+  getPageData = () => {
     const {
       pageSize,
       currentPage,
@@ -93,7 +110,7 @@ class Movies extends Component {
 
     if (count <= 0) return <p>There are no movies in the database</p>;
 
-    const { moviesCount, data } = this.getPadeData();
+    const { moviesCount, data } = this.getPageData();
 
     return (
       <div className="row">

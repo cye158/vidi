@@ -1,6 +1,6 @@
 import React from "react";
 
-const Rentals = props => {
+const Rentals = () => {
   return <h1>Rentals Page</h1>;
 };
 
