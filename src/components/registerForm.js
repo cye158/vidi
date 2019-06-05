@@ -2,6 +2,7 @@ import React from "react";
 import Form from "./common/form";
 import Joi from "joi";
 import { register } from "../services/userService";
+import auth from "../services/authService";
 
 class RegisterForm extends Form {
   state = {
@@ -31,8 +32,8 @@ class RegisterForm extends Form {
     try {
       const { data: user } = this.state;
       const response = await register(user);
-      localStorage.setItem("token", response.headers["x-auth-token"]);
-      window.location = "/"; //instead of this.props.history.push("/")
+      auth.registerLogin(response.headers["x-auth-token"]);
+      window.location = "/"; //Rerender entire page to show user after login instead of 'this.props.history.push("/")'
       console.log("Register Success");
     } catch (e) {
       if (e.response && e.response.status === 400) {
