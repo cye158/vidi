@@ -22,7 +22,7 @@ export function saveMovie(mov) {
     return http.put(movieUrl(mov._id), body);
   }
 
-  return http.post(`${apiUrl}/movies/`, mov);
+  return http.post(apiEndPoint, mov);
 }
 
 export function deleteMovie(id) {
