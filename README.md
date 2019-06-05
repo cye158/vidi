@@ -5,7 +5,9 @@
 A Video Rental Service for browsing movies.
 Calls backend for movie infromations (title/genre/stock/rate) and user auths (register/login/logout), and etc. (In Progress)
 
-## **************\*\***************\*\***************\*\***************
+![vidi png](./public/sample.png "vidi homepage sample")
+
+## ******\*\*******\*\*******\*\*******\*\*******\*\*******\*\*******\*\*******
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
