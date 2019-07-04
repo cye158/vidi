@@ -31,7 +31,10 @@ class App extends Component {
         <main className="container">
           <Switch>
             <Route path="/movies/:id" component={MovieForm} />
-            <Route path="/movies" component={Movies} />
+            <Route
+              path="/movies"
+              render={props => <Movies {...props} user={this.state.user} />}
+            />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
             <Route path="/login" component={LoginForm} />
