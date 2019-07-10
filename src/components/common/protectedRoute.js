@@ -1,12 +1,21 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import { getCurrUser } from "../../services/authService";
 
 const ProtectedRoute = ({ user, component: Component, render, ...rest }) => {
   return (
     <Route
       {...rest}
       render={props => {
-        if (!user) return <Redirect to="/login" />;
+        if (!getCurrUser())
+          return (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: props.location }
+              }}
+            />
+          );
         return Component ? <Component {...props} /> : render(props);
       }}
     />
